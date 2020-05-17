@@ -1,4 +1,5 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
+import {Button, message} from 'antd'
 
 import Login from './pages/login/login'
 import Admin from './pages/admin/admin'
@@ -7,17 +8,12 @@ import Admin from './pages/admin/admin'
 应用的根组件
  */
 export default class App extends Component {
-
-
-  render () {
+  handleClick = () => {
+    message.success('成功啦...');
+  }
+  render() {
     return (
-      <div>asdfasdf</div>
-      // <BrowserRouter>
-      //   <Switch> {/*只匹配其中一个*/}
-      //     <Route path='/login' component={Login}></Route>
-      //     <Route path='/' component={Admin}></Route>
-      //   </Switch>
-      // </BrowserRouter>
+      <Button type='primary' onClick={this.handleClick}>学习</Button>
     )
   }
 }
