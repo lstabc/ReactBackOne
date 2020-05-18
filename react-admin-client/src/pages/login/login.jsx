@@ -17,7 +17,8 @@ class Login extends Component {
       <div className='login'>
         <header className='login-header'>
           <img src={logo} alt="logo" />
-          <h1>React 项目: 后台管理系统</h1>
+          <h1>湘潭经开区大数据中心</h1>
+          <h3>----XTETDZ-Big Data Center</h3>
         </header>
         <section className='login-content'>
           <h3>用户登陆</h3>
