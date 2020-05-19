@@ -3,6 +3,7 @@ import { Form, Input, Button, Checkbox } from 'antd';
 import logo from './images/logo.png'
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import './login.less'
+import {reqLogin} from '../../api'
 const Item = Form.Item
 /*
 登陆路由组件
@@ -15,14 +16,27 @@ class Login extends Component {
       return Promise.reject("用户名不能为空")
     else if (value.length < 4)
       return Promise.reject("用户名长度最小为4位")
+    else if (value.length > 16)
+      return Promise.reject("用户名长度最大为16位")
+    else if (!/^[a-zA-Z0-9_]+$/.test(value))
+      return Promise.reject("密码必须是英文、数组或下划线组成")
     else
       return Promise.resolve()
   }
 
   render() {
 
-    const onFinish = values => {
-      console.log('Received values of form: ', values);
+    const onFinish = async values => {
+      const {username,password} = values
+      try {
+        const response = await reqLogin(username,password)
+        console.log('请求成功',response)
+        
+      } catch (error) {
+        console.log('请求失败',error)
+      }
+      
+     // console.log('Received values of form: ', values);
     }
     return (
       <div className='login'>
