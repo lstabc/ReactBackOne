@@ -1,9 +1,12 @@
 import React, { Component } from 'react'
-import { Form, Input, Button, Checkbox } from 'antd';
+import { Form, Input, Button, Checkbox, message } from 'antd';
 import logo from './images/logo.png'
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import './login.less'
-import {reqLogin} from '../../api'
+import { reqLogin } from '../../api'
+import memoryUtils from '../../utils/memoryUtils'
+import storageUtils from '../../utils/storageUtils'
+
 const Item = Form.Item
 /*
 登陆路由组件
@@ -11,7 +14,15 @@ const Item = Form.Item
 
 class Login extends Component {
 
+//自定义验证表单数据
   validator = (rule, value) => {
+/*
+用户名/密码的的合法性要求
+1). 必须输入
+2). 必须大于等于 4 位
+3). 必须小于等于 12 位
+4). 必须是英文、数字或下划线组成
+*/
     if (!value)
       return Promise.reject("用户名不能为空")
     else if (value.length < 4)
@@ -26,18 +37,31 @@ class Login extends Component {
 
   render() {
 
-    const onFinish = async values => {
-      const {username,password} = values
-      try {
-        const response = await reqLogin(username,password)
-        console.log('请求成功',response)
-        
-      } catch (error) {
-        console.log('请求失败',error)
-      }
-      
-     // console.log('Received values of form: ', values);
+    const user = storageUtils.getUser()
+    if(user && user._id){
+      this.props.history.replace('/')
     }
+
+    const onFinish = async values => {
+      //从表单数据values中提取username, password
+      const { username, password } = values
+      // console.log('提交登陆的ajax 请求', values)
+      const result = await reqLogin(username, password)
+      if (result.status === 0) {
+        // 提示登录成功
+        message.success('登录成功', 2)
+        // 保存用户登录信息
+        memoryUtils.user = result.data
+        storageUtils.saveUser(result.data)
+        // 跳转到主页面
+        this.props.history.replace('/')
+      } else {
+        // 登录失败, 提示错误
+        message.error(result.msg)
+      }
+      // console.log('Received values of form: ', values);
+    }
+
     return (
       <div className='login'>
         <header className='login-header'>
