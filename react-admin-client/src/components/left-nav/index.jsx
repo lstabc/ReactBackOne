@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import './index.less'
-import { Menu } from 'antd';
+import { Menu,Icon } from 'antd';
 import {
     AppstoreOutlined,
     PieChartOutlined,
@@ -10,22 +10,41 @@ import {
 } from '@ant-design/icons';
 import logojpg from '../../assets/images/bglogo.jpg'
 import { Link } from 'react-router-dom'
+import  menuList from '../../config/menuConfig'
 
 const { SubMenu } = Menu;
 
 export default class LeftNav extends Component {
 
-    state = {
-        collapsed: false,
-    };
+    
+    getMenuNodes = (menuList) =>{
+        return menuList.map(item => {
+            if(!item.children){
+                 return(
+                //     <Menu.Item key="3" icon={<ContainerOutlined />}>
+                //         数据清理
+                //     </Menu.Item>
+                    <Menu.Item key={item.key} icon={<item.icon />}>  
+                        {item.title}
+                    </Menu.Item>
+                )
+            }
+            else{
+                return (
+                    <SubMenu key={item.key} icon={<item.icon />} title={item.title}>
+                        {this.getMenuNodes(item.children)}
+                    </SubMenu>
+                )
 
-    toggleCollapsed = () => {
-        this.setState({
-            collapsed: !this.state.collapsed,
-        });
-    };
+            }
+        })
+    }
 
     render() {
+
+        
+        console.log(this.getMenuNodes(menuList))
+
         return (
             <div to='/' className='left-nav'>
                 <Link className='left-nav-header'>
@@ -37,8 +56,10 @@ export default class LeftNav extends Component {
                     defaultOpenKeys={['sub1']}
                     mode="inline"
                     theme="dark"
-                    inlineCollapsed={this.state.collapsed}
                 >
+
+                {this.getMenuNodes(menuList)}
+{/*                    
                     <Menu.Item key="1" icon={<PieChartOutlined />}>
                         首页
                     </Menu.Item>
@@ -62,6 +83,7 @@ export default class LeftNav extends Component {
                             <Menu.Item key="12">自动分析</Menu.Item>
                         </SubMenu>
                     </SubMenu>
+*/}
                 </Menu>
             </div>
         )
