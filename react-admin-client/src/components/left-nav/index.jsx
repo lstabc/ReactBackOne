@@ -1,13 +1,6 @@
 import React, { Component } from 'react'
 import './index.less'
-import { Menu,Icon } from 'antd';
-import {
-    AppstoreOutlined,
-    PieChartOutlined,
-    DesktopOutlined,
-    ContainerOutlined,
-    MailOutlined,
-} from '@ant-design/icons';
+import { Menu } from 'antd';
 import logojpg from '../../assets/images/bglogo.jpg'
 import { Link } from 'react-router-dom'
 import  menuList from '../../config/menuConfig'
@@ -24,14 +17,14 @@ export default class LeftNav extends Component {
                 //     <Menu.Item key="3" icon={<ContainerOutlined />}>
                 //         数据清理
                 //     </Menu.Item>
-                    <Menu.Item key={item.key} icon={<item.icon />}>  
+                    <Menu.Item key={item.key} icon={item.icon}>  
                         {item.title}
                     </Menu.Item>
                 )
             }
             else{
                 return (
-                    <SubMenu key={item.key} icon={<item.icon />} title={item.title}>
+                    <SubMenu key={item.key} icon={item.icon} title={item.title}>
                         {this.getMenuNodes(item.children)}
                     </SubMenu>
                 )

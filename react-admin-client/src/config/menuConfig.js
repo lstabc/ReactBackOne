@@ -1,34 +1,43 @@
+import React from 'react'
+import {
+    AppstoreOutlined,
+    PieChartOutlined,
+    DesktopOutlined,
+    ContainerOutlined,
+    MailOutlined,
+} from '@ant-design/icons';
+
 const menuList = [
     {
         title: '首页', // 菜单标题名称
         key: '/home', // 对应的 path
-        icon: 'PieChartOutlined', // 图标名称
+        icon: <ContainerOutlined />, // 图标名称
     },
     {
         title: '数据分析',
         key: '/data-analysis',
-        icon: 'PieChartOutlined',
+        icon: <PieChartOutlined />, // 图标名称
     },
     {
         title: '数据清理',
         key: '/data-cleaning',
-        icon: 'DesktopOutlined',
+        icon: <DesktopOutlined />, // 图标名称
     },
 
     {
         title: '数据来源',
         key: '/data-sources',
-        icon: 'ContainerOutlined',
+        icon: <ContainerOutlined />, // 图标名称
         children: [ // 子菜单列表
             {
                 title: '公安数据',
                 key: '/data-sources/police-data',
-                icon: 'bars'
+                icon: <MailOutlined />, // 图标名称
             },
             {
                 title: '采集数据',
                 key: '/data-sources/data-acquisition',
-                icon: 'tool'
+                icon: <AppstoreOutlined />, // 图标名称
 
             },
             {
