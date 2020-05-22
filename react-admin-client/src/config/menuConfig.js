@@ -1,17 +1,26 @@
 import React from 'react'
 import {
+    HomeOutlined,
     AppstoreOutlined,
     PieChartOutlined,
     DesktopOutlined,
     ContainerOutlined,
     MailOutlined,
+    VideoCameraAddOutlined,
+    VideoCameraOutlined,
+    UserAddOutlined,
+    WalletOutlined,
+    SecurityScanOutlined,
+    SaveOutlined,
+    PoundOutlined,
+    PictureOutlined
 } from '@ant-design/icons';
 
 const menuList = [
     {
         title: '首页', // 菜单标题名称
         key: '/home', // 对应的 path
-        icon: <ContainerOutlined />, // 图标名称
+        icon: <HomeOutlined />, // 图标名称
     },
     {
         title: '数据分析',
@@ -43,45 +52,45 @@ const menuList = [
             {
                 title: '监控数据',
                 key: '/data-sources/network-data',
-                icon: 'bars'
+                icon: <VideoCameraAddOutlined /> ,
             },
             {
                 title: '视频数据',
                 key: '/data-sources/video-data',
-                icon: 'bars'
+                icon: <VideoCameraOutlined />
             }
         ]
     },
     {
         title: '应用平台',
         key: '/application-system',
-        icon: 'user',
+        icon: <UserAddOutlined />,
         children: [ // 子菜单列表
             {
                 title: '网格系统',
                 key: '/application-system/grid-application',
-                icon: 'bars'
+                icon: <WalletOutlined />
             },
             {
                 title: 'OA系统',
                 key: '/application-system/oa-application',
-                icon: 'tool'
+                icon: <SecurityScanOutlined />
 
             },
             {
                 title: '子系统',
                 key: '/application-system/sub-system',
-                icon: 'bars',
+                icon: <SaveOutlined />,
                 children: [ // 子菜单列表
                     {
                         title: '图表展示',
                         key: '/application-system/sub-system/data-grid-system',
-                        icon: 'bars'
+                        icon: <PoundOutlined />
                     },
                     {
                         title: '自动分析',
                         key: '/application-system/sub-system/data-table-system',
-                        icon: 'tool'
+                        icon: <PictureOutlined />
 
                     }
                 ]
@@ -91,7 +100,7 @@ const menuList = [
     {
         title: '角色管理',
         key: '/role',
-        icon: 'safety',
+        icon: <UserAddOutlined/>,
     }
 ]
 

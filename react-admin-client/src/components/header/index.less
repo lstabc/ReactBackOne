@@ -1,3 +1,89 @@
 .header{
     height: 80px;
+    .header-top{
+        display: flex;
+        height: 20px;
+        background-color: #006dcc;
+        border-bottom: rgb(57, 181, 55) solid 1px;
+        .header-top-left{
+            width: 50%;
+            color: seashell;
+            .header-top-UserOutlined{
+                font-size: 15px;
+                margin: 0 5px 0px 15px;
+            }
+            span{
+                font-size: 10px;
+            }
+            a{
+                font-size: 10px;
+                color: rgb(175, 175, 236);
+            }
+        }
+        .header-top-right{
+            width: 50%;
+            text-align: right;
+            span{
+                font-size: 10px;
+                color: seashell;
+                margin-right: 20px;
+            }
+        }
+    }
+    .header-bottom{
+        height: 60px;
+        display: flex;
+        align-items: center;
+        background-color: #0080ff;
+        .header-bottom-left{
+            width: 50%;
+            text-align: center;
+            display:flex;
+            .header-bottom-left-SlackOutlined{
+                margin: 0 5px 0 15px;
+                font-size: 35px;
+                color: white;
+            }
+            h1{
+                font-size: 18px;
+                font-style: italic;
+                color: seashell;
+            }
+        }
+        .header-bottom-right{
+            display: flex;
+            flex-direction:row-reverse;
+            width: 50%;
+            text-align: right;
+            .header-bottom-right-set{
+                width: 60px;
+                display: flex;
+                flex-direction:column;
+                color: white;
+                border-left: rgb(42, 89, 127) solid 1px;
+                border-right: rgb(42, 89, 127)  solid 1px;
+                .header-bottom-right-set-logo{
+                    font-size: 30px;
+                }
+                span{
+                    font-size: 12px;
+                    text-align: center;
+                }
+            }
+            .header-bottom-right-tool{
+                width: 60px;
+                display: flex;
+                flex-direction:column;
+                color: white;
+                border-left: rgb(42, 89, 127) solid 1px;
+                .header-bottom-right-tool-logo{
+                    font-size: 30px;
+                }
+                span{
+                    font-size: 12px;
+                    text-align: center;
+                }
+            }
+        }
+    }
 }

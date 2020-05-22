@@ -1,57 +1,66 @@
 import React, { Component } from 'react'
 import './index.less'
 import { Menu } from 'antd';
-import logojpg from '../../assets/images/bglogo.jpg'
-import { Link } from 'react-router-dom'
+//import logojpg from '../../assets/images/bglogo.jpg'
+import { Link,withRouter} from 'react-router-dom'
 import  menuList from '../../config/menuConfig'
+import {
+    AntDesignOutlined,
+} from '@ant-design/icons';
 
 const { SubMenu } = Menu;
 
-export default class LeftNav extends Component {
+class LeftNav extends Component {
 
-    
     getMenuNodes = (menuList) =>{
+        const path = this.props.location.pathname
         return menuList.map(item => {
             if(!item.children){
                  return(
-                //     <Menu.Item key="3" icon={<ContainerOutlined />}>
-                //         数据清理
-                //     </Menu.Item>
-                    <Menu.Item key={item.key} icon={item.icon}>  
-                        {item.title}
+                    <Menu.Item key={item.key} icon={item.icon}>
+                        <Link to = {item.key}>
+                            {item.title}
+                        </Link>
                     </Menu.Item>
                 )
             }
             else{
+                if(item.children.find(cItem => path.indexOf(cItem.key)===0)) {
+                    this.openKey = item.key
+                }
                 return (
                     <SubMenu key={item.key} icon={item.icon} title={item.title}>
                         {this.getMenuNodes(item.children)}
                     </SubMenu>
                 )
-
             }
         })
     }
 
+componentWillMount(){
+    this.menuTable =  this.getMenuNodes(menuList)
+}
+
     render() {
 
-        
-        console.log(this.getMenuNodes(menuList))
+        const selectKey = this.props.location.pathname
+        const openKey = this.openKey
 
         return (
-            <div to='/' className='left-nav'>
-                <Link className='left-nav-header'>
-                    <img src={logojpg} alt='logojpg'></img>
+            <div className='left-nav'>
+                <Link to='/' className='left-nav-header'>
+                    <AntDesignOutlined className='left-nav-header-logo'/>
                     <h1>管理后台</h1>
                 </Link>
                 <Menu
                     defaultSelectedKeys={['1']}
-                    defaultOpenKeys={['sub1']}
+                    defaultOpenKeys={[openKey]}
                     mode="inline"
                     theme="dark"
+                    selectedKeys={[selectKey]}
                 >
+                    {this.menuTable}
 
-                {this.getMenuNodes(menuList)}
 {/*                    
                     <Menu.Item key="1" icon={<PieChartOutlined />}>
                         首页
@@ -84,3 +93,10 @@ export default class LeftNav extends Component {
 
 
 }
+
+
+/*
+withRouter: 高阶组件 : 包装非路由组件返回一个包装后的新组件 , 新组件会向被包装组件传递
+history/location/match 属性
+*/
+export default withRouter(LeftNav)
