@@ -37,9 +37,7 @@ class LeftNav extends Component {
         })
     }
 
-componentWillMount(){
-    this.menuTable =  this.getMenuNodes(menuList)
-}
+    menuTable =  this.getMenuNodes(menuList)
 
     render() {
 

@@ -8,12 +8,15 @@ import {
 } from '@ant-design/icons';
 import memoryUtils from '../../utils/memoryUtils'
 import storageUtils from '../../utils/storageUtils'
+//import { reqWeather } from '../../api'
 
 
 export default class Header extends Component{
 
 
     render(){
+
+       // const reqWeatherMsg = city => reqWeather("长沙")
 
         const logout = () => {
             console.log("memoryUtils")
