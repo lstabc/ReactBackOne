@@ -17,6 +17,7 @@ import OaApplication from '../application-system/oa-application'
 import VideoSystem from '../application-system/video-system'
 import DataGridSystem from '../application-system/sub-system/data-grid-system'
 import DataTableSystem from '../application-system/sub-system/data-table-system'
+import UserManagement from '../user-management'
 
 
 const {  Footer, Sider, Content } = Layout;
@@ -43,7 +44,7 @@ export default class Admin extends Component {
             <Header>
               <Header/>
             </Header>
-            <Content style={{backgroundColor:'#fff'}}>
+            <Content className='content'>
               <Switch>
                 <Route path='/home' component={Home}/>
                 <Route path='/data-analysis' component={DataAnalysis}/>
@@ -57,6 +58,7 @@ export default class Admin extends Component {
                 <Route path='/application-system/video-system' component={VideoSystem}/>
                 <Route path='/application-system/sub-system/data-grid-system' component={DataGridSystem}/>
                 <Route path='/application-system/sub-system/data-table-system' component={DataTableSystem}/>
+                <Route path='/user-management' component={UserManagement}/>
                 <Redirect to='/home' />
               </Switch>
             </Content>

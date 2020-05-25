@@ -99,7 +99,7 @@ const menuList = [
     },
     {
         title: '角色管理',
-        key: '/role',
+        key: '/user-management',
         icon: <UserAddOutlined/>,
     }
 ]
