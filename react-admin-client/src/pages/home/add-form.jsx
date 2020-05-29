@@ -13,36 +13,45 @@ class AddForm extends Component {
     static propTypes = {
         categorys: PropTypes.array.isRequired,
         parentId: PropTypes.string.isRequired,
-        // setForm: PropTypes.func.isRequired,
-    }
-
-    componentWillMount() {
-        // this.props.setForm(this.props.form)
-    }
-
-    getFormValue = (changedValues, allValues) => {
-      const {inputname} = allValues
-       // console.log("getFormValue",allValues)
-        return inputname
-
+        getFormValue: PropTypes.func.isRequired,
     }
 
     render() {
 
-        //  const { getFieldDecorator } = this.props.form
-        const { categorys, parentId } = this.props
+        const {parentId,getFormValue} = this.props
+
+        const saveFiled = (changedValues, allValues) => {
+            //console.log("allValues",allValues);
+            getFormValue(allValues);
+        }
+
+        const { categorys } = this.props
         return (
-            <Form onValuesChange={this.getFormValue}>
-                <Item name="isgood" label='所属分类'>
+            <Form 
+             onValuesChange={saveFiled}
+            >
+                <Item 
+                    name="parentId" 
+                    initialValue = {parentId} 
+                    label='所属分类'
+                    rules={
+                        [
+                          { required: true, message: '请输入ID' },
+                        ]}
+                >
                     <Select>
                         <Option key='0' value='0'>一级分类</Option>
-                        {
-                            categorys.map(c => <Option key={c._id}
-                                value={c._id}>{c.name}</Option>)
-                        }
+                        {categorys.map(c => <Option key={c._id} value={c._id}>{c.name}</Option>)}
                     </Select>
                 </Item>
-                <Item name = "inputname" label='分类名称'>
+                <Item 
+                name = "categoryName" 
+                label='分类名称'
+                rules={
+                    [
+                      { required: true, message: '请输入分类名称' },
+                    ]}
+                >
                     <Input placeholder='请输入分类名称'/>
                 </Item>
             </Form>

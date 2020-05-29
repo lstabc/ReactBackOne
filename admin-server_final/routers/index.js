@@ -157,6 +157,31 @@ router.post('/manage/category/add', (req, res) => {
     })
 })
 
+// 删除用户
+router.post('/manage/category/delete', (req, res) => {
+  const {categoryId} = req.body
+  const parentId = categoryId
+  CategoryModel.find({parentId})
+    .then(categorys => {
+      //console.log("categorys",categorys)
+      //console.log("categorys.length",categorys.length)
+      if(categorys.length < 1){
+        console.log("categorys",categoryId)
+        CategoryModel.deleteOne({_id: categoryId})
+        .then((doc) => {
+          res.send({status: 0})
+        })
+      }else{
+        res.send({status: 1, msg: '分类列表不为空, 请重新尝试'})
+      }
+    })
+    .catch(error => {
+      console.error('获取分类列表异常', error)
+      res.send({status: 1, msg: '获取分类列表异常, 请重新尝试'})
+    })
+})
+
+
 // 获取分类列表
 router.get('/manage/category/list', (req, res) => {
   const parentId = req.query.parentId || '0'

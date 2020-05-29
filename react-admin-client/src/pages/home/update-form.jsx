@@ -21,7 +21,7 @@ class UpdateForm extends Component {
     render() {
 
       //  const { getFieldDecorator } = this.props.form
-        const { categoryName } = this.props
+      //  const { categoryName } = this.props
 
         return (
             <Form>

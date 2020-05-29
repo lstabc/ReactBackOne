@@ -19,6 +19,8 @@ export const reqAddCategory = (parentId, categoryName) => ajax('/manage/category
         categoryName
     }, 'POST')
 
+export const reqDelCategory = (categoryId) => ajax('/manage/category/delete',{categoryId}, 'POST')
+
 // 更新品类名称
 export const reqUpdateCategory = ({ categoryId, categoryName }) =>
     ajax('/manage/category/update', {
