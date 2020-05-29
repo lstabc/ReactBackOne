@@ -5,6 +5,6 @@ import './index.less'
 通用的看起来像链接的 button 组件
 */
 export default function LinkButton(props) {
-    console.log(props)
+   // console.log(props)
     return <button {...props} className='link-button'></button>
 }

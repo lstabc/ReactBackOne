@@ -10,7 +10,7 @@ import memoryUtils from '../../utils/memoryUtils'
 import storageUtils from '../../utils/storageUtils'
 import { withRouter } from 'react-router-dom'
 import { Modal } from 'antd'
-import LinkButton from '../link-button'
+//import LinkButton from '../link-button'
 import {formateDate} from '../../utils/dateUtils'
 import { reqWeather } from '../../api'
 
@@ -76,8 +76,14 @@ class Header extends Component {
     }
 
     componentDidMount() {
-        this.getWeather("湘潭")
+        this.getWeather('xiangtan')
         this.getSysTime()
+    }
+    componentWillUnMount = () => {
+        // //1.ajax请求
+        // $.ajax.abort()
+        //2.定时器
+        clearTimeout(this.intervalId)
     }
 
     render() {
@@ -88,13 +94,13 @@ class Header extends Component {
                     <div className='header-top-left'>
                         <UserOutlined className='header-top-UserOutlined' />
                         <span>系统管理员，欢迎您！</span>
-                        <LinkButton onClick={this.logout}>退出登录</LinkButton>
-                        {/* <a href="scripts:" onClick={this.logout}>退出登录</a> */}
+                        {/* <LinkButton onClick={this.logout}>退出登录</LinkButton> */}
+                        <a href="scripts:" onClick={this.logout}>退出登录</a>
                     </div>
                     <div className='header-top-right'>
                         <h3>{this.state.sysTime}</h3>
-                        <img src={this.state.dayPictureUrl} alt="天气" />
-                        <span>今天是{this.state.date}&nbsp;&nbsp;&nbsp;{this.state.currentCity}&nbsp;&nbsp;&nbsp;天气{this.state.weather}</span>
+                        {/* <img src={this.state.dayPictureUrl} alt="天气" /> */}
+                        <span>今天是{this.state.date}&nbsp;&nbsp;&nbsp;{this.state.currentCity}&nbsp;&nbsp;&nbsp;天气：{this.state.weather}</span>
                     </div>
                 </div>
                 <div className='header-bottom'>

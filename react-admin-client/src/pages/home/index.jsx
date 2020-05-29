@@ -1,100 +1,134 @@
 import React, { Component } from 'react'
 import './index.less'
-import { Card,Table } from 'antd';
-import reqwest from 'reqwest';
+import { Card, Table, Button,Modal } from 'antd';
+//import reqwest from 'reqwest';
+import { reqCategorys } from '../../api'
+import LinkButton from '../../components/link-button';
+import {
+  PlusOutlined,
+} from '@ant-design/icons';
+import UpdateForm from './update-form'
+import AddForm from './add-form'
 
 const columns = [
-    {
-      title: 'Name',
-      dataIndex: 'name',
-      sorter: true,
-      render: name => `${name.first} ${name.last}`,
-      width: '20%',
-    },
-    {
-      title: 'Gender',
-      dataIndex: 'gender',
-      filters: [
-        { text: 'Male', value: 'male' },
-        { text: 'Female', value: 'female' },
-      ],
-      width: '20%',
-    },
-    {
-      title: 'Email',
-      dataIndex: 'email',
-    },
-  ];
-  
-  const getRandomuserParams = params => {
-    return {
-      results: params.pagination.pageSize,
-      page: params.pagination.current,
-      ...params,
-    };
-  };
-  
+  {
+    title: '分类名称',
+    dataIndex: 'name',
+  },
+  {
+    title: '操作',
+    width: 300,
+    render: (category) => (
+      <span>
+        <LinkButton >修改分类</LinkButton>
+        <LinkButton >查看子分类</LinkButton>
+      </span>
+
+    )
+  }
+];
+
 export default class Home extends Component {
 
-    state = {
-        data: [],
-        pagination: {
-          current: 1,
-          pageSize: 10,
-        },
-        loading: false,
-      };
-    
-      componentDidMount() {
-        const { pagination } = this.state;
-        this.fetch({ pagination });
-      }
-    
-      handleTableChange = (pagination, filters, sorter) => {
-        this.fetch({
-          sortField: sorter.field,
-          sortOrder: sorter.order,
-          pagination,
-          ...filters,
-        });
-      };
-    
-      fetch = (params = {}) => {
-        this.setState({ loading: true });
-        reqwest({
-          url: 'https://randomuser.me/api',
-          method: 'get',
-          type: 'json',
-          data: getRandomuserParams(params),
-        }).then(data => {
-          console.log(data);
-          this.setState({
-            loading: false,
-            data: data.results,
-            pagination: {
-              ...params.pagination,
-              total: 200,
-              // 200 is mock data, you should read it from server
-              // total: data.totalCount,
-            },
-          });
-        })
-    }
+  state = {
+    data: [],
+    pagination: {
+      current: 1,
+      pageSize: 10,
+    },
+    loading: false,
+    showStatus:0,// 是否显示对话框 0: 都不显示, 1: 显示添加, 2: 显示更新
+  };
 
-    render() {
-        return (
-            <div className="home">
-                <Card className='card' title="Card-title" bordered={false}>
-                    <Table
-                        columns={columns}
-                        rowKey={record => record.login.uuid}
-                        dataSource={this.state.data}
-                        pagination={this.state.pagination}
-                        loading={this.state.loading}
-                        onChange={this.handleTableChange}
-                    />
-                </Card>
-            </div>
-        )
-    }
+  reqCategorysdata = async (parentId) => {
+    const result = await reqCategorys(parentId)
+    console.log(result)
+    this.setState({
+      data: result.data,
+    })
+
+  }
+
+  componentDidMount() {
+    this.reqCategorysdata('0')
+
+  }
+
+  handleTableChange = (pagination, filters, sorter) => {
+    this.setState({
+      sortField: sorter.field,
+      sortOrder: sorter.order,
+      pagination,
+      ...filters,
+    });
+  };
+  showCategorys = () =>{
+    this.setState({
+      showStatus : 1
+    })
+  } 
+  addCategory = () => {
+    const asd = this.getFormValue
+    console.log("asd is ",asd)
+  }
+
+  render() {
+
+    const title = (
+      <span>
+        分类列表
+      </span>
+    )
+    // Card 的右侧 button
+    const extra = (
+      <Button type='primary' onClick={this.showCategorys}>
+        <PlusOutlined />&nbsp;&nbsp; 添加
+      </Button>
+    )
+
+
+    return (
+      <div className="home">
+        <Card className='card' title={title} extra={extra} bordered={false}>
+          <Table
+            columns={columns}
+            rowKey={record => record._id}
+            dataSource={this.state.data}
+            pagination={this.state.pagination}
+            loading={this.state.loading}
+            onChange={this.handleTableChange}
+          />
+
+          <Modal
+            title="添加分类"
+            visible={this.state.showStatus === 1}
+            onOk={this.addCategory}
+            onCancel={() => this.setState({ showStatus: 0 })}
+          >
+            <AddForm
+              categorys={["categorys","asfdasdf"]}
+              parentId={'0'}
+              getFormValue={getFormValue => this.getFormValue = getFormValue}
+            />
+          </Modal>
+
+          <Modal
+            title="修改分类"
+            visible={this.state.showStatus === 2}
+            onOk={()=>{}}
+            onCancel={() => {
+              this.setState({ showStatus: 0 })
+              this.form.resetFields()
+            }}
+          >
+            <UpdateForm
+              categoryName={"category.name"}
+              //setForm={form => this.form = form}
+            />
+          </Modal>
+
+        </Card>
+      </div>
+    )
+  }
 }
