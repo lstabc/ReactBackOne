@@ -6,6 +6,7 @@ import { reqCategorys, reqAddCategory,reqDelCategory } from '../../api'
 import LinkButton from '../../components/link-button';
 import {
   PlusOutlined,
+  RightOutlined,
 } from '@ant-design/icons';
 import UpdateForm from './update-form'
 import AddForm from './add-form'
@@ -13,16 +14,12 @@ import AddForm from './add-form'
 
 export default class Home extends Component {
   
-
-  viewSubCategorys = (category)=>{
-    this.setState({
-      parentId:category._id,
-    })
-    this.reqCategorysdata(category._id)
-  }
-
   state = {
-    categorys: [],
+    columnsArray:[
+      {id:"0",
+     name:"一级分类"}
+    ],
+    categorys:[],
     pagination: {
       current: 1,
       pageSize: 10,
@@ -31,6 +28,41 @@ export default class Home extends Component {
     parentId: "0",
     showStatus: 0,// 是否显示对话框 0: 都不显示, 1: 显示添加, 2: 显示更新
   };
+
+  viewSubCategorys = (category)=>{
+    const col = {id:category._id,name:category.name}
+    this.setState({
+      parentId:category._id,
+      columnsArray:[...this.state.columnsArray, col],
+    })
+    this.reqCategorysdata(category._id)
+  }
+
+  findIndexByKey(array, key, value) {
+    for (var i = 0; i < array.length; i++) {
+      if (array[i][key] === value) {
+        return i;
+      }
+    }
+    return -1;
+  }
+
+
+  returnToTag = (itemID) =>{
+//    console.log("columnsArray",this.state.columnsArray)
+//    console.log("itemID",itemID)
+    const array =  this.state.columnsArray
+    const index = this.findIndexByKey(this.state.columnsArray,'id',itemID)
+ //   console.log("index",index)
+    array.splice(index+1,array.length-1)
+    this.setState({
+      parentId:itemID,
+     columnsArray:[...array],
+    })
+    this.reqCategorysdata(itemID)
+    
+  }
+
 
   reqCategorysdata = async (parentId) => {
     const result = await reqCategorys(parentId)
@@ -110,9 +142,13 @@ export default class Home extends Component {
   render() {
 
     const title = (
-      <span>
-        一级分类列表
+      this.state.columnsArray.map(itemID=>(
+        <span key= {itemID.id}>
+         <RightOutlined /> <LinkButton onClick={()=>{this.returnToTag(itemID.id)}}>
+            {itemID.name}
+          </LinkButton>
       </span>
+      ))
     )
     // Card 的右侧 button
     const extra = (
