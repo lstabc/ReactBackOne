@@ -2,13 +2,13 @@ import React, { Component } from 'react'
 import './index.less'
 import { Card, Table, Button, Modal, message } from 'antd';
 //import reqwest from 'reqwest';
-import { reqCategorys, reqAddCategory,reqDelCategory } from '../../api'
+import { reqCategorys, reqAddCategory,reqDelCategory,reqUpdateCategory } from '../../api'
 import LinkButton from '../../components/link-button';
 import {
   PlusOutlined,
   RightOutlined,
 } from '@ant-design/icons';
-import UpdateForm from './update-form'
+import UpdateForm from './updata-form'
 import AddForm from './add-form'
 
 
@@ -60,9 +60,16 @@ export default class Home extends Component {
      columnsArray:[...array],
     })
     this.reqCategorysdata(itemID)
-    
   }
 
+  showUpdataCategorys=(category)=>{
+    // 保存 category
+    this.category = category
+    this.setState({
+      showStatus: 2
+    })
+
+  }
 
   reqCategorysdata = async (parentId) => {
     const result = await reqCategorys(parentId)
@@ -85,7 +92,7 @@ export default class Home extends Component {
         width: 350,
         render: (category) => (
           <span>
-            <LinkButton >修改分类</LinkButton>
+            <LinkButton onClick = {()=>{this.showUpdataCategorys(category)}} >修改分类</LinkButton>
             <LinkButton onClick = {()=>{this.viewSubCategorys(category)}}>查看子分类</LinkButton>
             <LinkButton onClick = {()=>{this.delCategorys(category)}}>删除分类</LinkButton>
           </span>
@@ -139,8 +146,26 @@ export default class Home extends Component {
     }
   }
 
-  render() {
+  updataCategory = async()=>{
+    this.setState({
+      showStatus: 0
+    })
+    if(!this.getFormValue)
+    {return}
+    console.log("this.getFormValue",this.getFormValue)
+    const {categoryId} = this.getFormValue
+    const categoryName = this.getFormValue.allValues.categoryName
+    const result = await reqUpdateCategory({ categoryId, categoryName })
+    if(result.status === 0){
+      message.success("名称更新成功！")
+    }else{
+      message.error("名称更新失败！请检查网络。")
+    }
+    this.reqCategorysdata(this.state.parentId)
+  }
 
+  render() {
+    const category = this.category || {}
     const title = (
       this.state.columnsArray.map(itemID=>(
         <span key= {itemID.id}>
@@ -174,7 +199,10 @@ export default class Home extends Component {
             title="添加分类"
             visible={this.state.showStatus === 1}
             onOk={this.addCategory}
-            onCancel={() => this.setState({ showStatus: 0 })}
+            onCancel={() => {
+              this.setState({ showStatus: 0 })
+            //  this.resetFields()
+            }}
           >
             <AddForm
               categorys={this.state.categorys}
@@ -186,15 +214,17 @@ export default class Home extends Component {
           <Modal
             title="修改分类"
             visible={this.state.showStatus === 2}
-            onOk={() => { }}
+            onOk={this.updataCategory}
             onCancel={() => {
               this.setState({ showStatus: 0 })
-              this.form.resetFields()
+              //this.UpdateForm.resetFields()
             }}
           >
             <UpdateForm
-              categoryName={"category.name"}
-            //setForm={form => this.form = form}
+              categoryName={category.name || ""}
+              categoryId = {category._id || ""}
+              getFormValue={(getFormValue) => this.getFormValue = getFormValue}
+             // resetFields={(resetFields) => this.resetFields = resetFields}
             />
           </Modal>
 
