@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Layout, Menu, Breadcrumb, Form, message } from 'antd';//, Input, Button, Checkbox
+import { Layout, Menu, Card , Form, message } from 'antd';//, Input, Button, Checkbox
 
 //import {MailOutlined, UserOutlined, LockOutlined } from '@ant-design/icons';
 import './login.less'
@@ -11,7 +11,11 @@ import logo from './images/logo.png'
 
 const { Header, Footer, Content } = Layout;
 const Item = Form.Item
-
+const gridStyle = {
+  width: '20%',
+  height:'200px',
+  textAlign: 'center',
+};
 /*
 登陆路由组件
 */
@@ -74,29 +78,40 @@ class Login extends Component {
               <div className="login-layout-header-logo">
                 <img src={logo} alt="logo" />
                 <div className="login-layout-header-logo-text">
-                  <h1>湘潭经济技术开发区</h1>
-                  <h2>xtjkq.xiangtan.gov.cn</h2>
+                  <h1>湘潭经济技术开发区大数据中心</h1>
+                  <h2>BD-Center.xtetdz(jiuhua)</h2>
                 </div>
               </div>
               <Menu className='login-layout-header-menu' mode="horizontal" defaultSelectedKeys={['2']} >
-                <Menu.Item key="home" icon={<img style={{ width: 30, height: 30, textAlign: "center" }} src={home} alt='home' />}>首页</Menu.Item>
+                <Menu.Item key="home" icon={<img style={{ width: 30, height: 30, textAlign: "center" }} src={home} alt='home' />}><a href='#'>首页</a></Menu.Item>
                 <span>|</span>
-                <Menu.Item key="2"><a href='http://xtjkq.xiangtan.gov.cn/index.html'>官网</a></Menu.Item>
+                <Menu.Item key="2"><a target='_blank' href='http://xtjkq.xiangtan.gov.cn/index.html'>经开区官网</a></Menu.Item>
                 <span>|</span>
-                <Menu.Item key="3">办事服务</Menu.Item>
+                <Menu.Item key="3"><a target='_blank' href='http://zwfw-new.hunan.gov.cn/hnzwfw/1/5/33891/index.htm'>办事服务</a></Menu.Item>
               </Menu>
             </div>
-            <div className='login-layout-header-bottom'/>
+            <div className='login-layout-header-bottom' />
           </Header>
           <Content className='login-content' style={{ padding: '0 50px' }}>
-            <Breadcrumb style={{ margin: '16px 0' }}>
-              <Breadcrumb.Item>Home</Breadcrumb.Item>
-              <Breadcrumb.Item>List</Breadcrumb.Item>
-              <Breadcrumb.Item>App</Breadcrumb.Item>
-            </Breadcrumb>
-            <div className="site-layout-content">Content</div>
+            <div className="site-layout-content">
+              <Card title="经开区办公网址导航">
+                <Card.Grid style={gridStyle}>Content</Card.Grid>
+                <Card.Grid style={gridStyle}>Content</Card.Grid>
+                <Card.Grid style={gridStyle}>Content</Card.Grid>
+                <Card.Grid style={gridStyle}>Content</Card.Grid>
+                <Card.Grid style={gridStyle}>Content</Card.Grid>
+                <Card.Grid style={gridStyle}>Content</Card.Grid>
+                <Card.Grid style={gridStyle}>Content</Card.Grid>
+                <Card.Grid style={gridStyle}>Content</Card.Grid>
+                <Card.Grid style={gridStyle}>Content</Card.Grid>
+                <Card.Grid style={gridStyle}>Content</Card.Grid>
+              </Card>
+            </div>
           </Content>
-          <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
+          <Footer className='footer'>
+            <h1>XTETDZ DB-Center Design ©2018 Created by 湘潭经开区大数据中心</h1>
+            <h1>地址：湘潭经开区创新创业中心5楼  &nbsp;&nbsp; 联系电话：（0731）57512345</h1>
+          </Footer>
         </Layout>,
       </div>
     )
